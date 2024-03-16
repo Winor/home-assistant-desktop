@@ -1,0 +1,28 @@
+[package]
+name = "home-assistant-desktop"
+version = "0.0.1"
+description = "A Tauri App"
+authors = ["Winor"]
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[build-dependencies]
+tauri-build = { version = "1.5", features = [] }
+
+[dependencies]
+tauri = { version = "1.6", features = ["api-all"] }
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+serde_yaml = "0.9"
+tokio = { version = "1", features = ["full"] }
+anyhow = "1.0"
+hass-rs = "0.3.1"
+async-tungstenite =  { version = "=0.25.0", features = ["tokio-rustls-native-certs"] }
+futures-util = "0.3.30"
+uuid = { version = "1.7.0", features = ["v4", "serde"] }
+
+[features]
+# this feature is used for production builds or when `devPath` points to the filesystem
+# DO NOT REMOVE!!
+custom-protocol = ["tauri/custom-protocol"]
