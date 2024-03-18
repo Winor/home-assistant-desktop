@@ -17,17 +17,10 @@
         "open": true
       }
     },
-    "windows": [
-      {
-        "fullscreen": false,
-        "resizable": true,
-        "title": "home-assistant-desktop",
-        "label": "main",
-        "width": 800,
-        "height": 600,
-        "decorations": true
-      }
-    ],
+    "systemTray": {
+      "iconPath": "icons/icon.png",
+      "iconAsTemplate": true
+    },
     "security": {
       "csp": null
     },
