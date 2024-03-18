@@ -1,4 +1,5 @@
-use crate::utils::{config::AppStore, hass_api::create_client};
+use crate::app::state::AppState;
+use crate::utils::hass_api::create_client;
 use hass_rs::HassClient;
 use hass_rs::HassEntity;
 use tauri::State;
@@ -9,12 +10,12 @@ pub type Haconn = Mutex<Option<HassClient>>;
 
 #[tauri::command]
 pub async fn hass_connect(
-    ha_rs: State<'_, Haconn>,
-    state: State<'_, AppStore>,
+    hass_client: State<'_, Haconn>,
+    store: State<'_, AppState>,
     server_id: Uuid,
 ) -> Result<String, String> {
-    let config = state.lock().await;
-    let server_instance = config.map.get(&server_id);
+    let state = store.lock().await;
+    let server_instance = state.config.map.get(&server_id);
     if let Some(server_instance) = server_instance {
         let client = create_client(
             server_instance.server.url.clone(),
@@ -23,7 +24,7 @@ pub async fn hass_connect(
         .await
         .ok();
         if let Some(client) = client {
-            let _set_client = ha_rs.lock().await.insert(client);
+            let _set_client = hass_client.lock().await.insert(client);
             return Ok("connected".to_string());
         }
     }

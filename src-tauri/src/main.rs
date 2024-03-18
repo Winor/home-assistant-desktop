@@ -6,14 +6,13 @@ mod utils;
 mod app;
 
 use std::fs;
-use app::action::open_settings;
+use app::{action::open_settings, state::{AppState, State}};
 use commands::{
     config::{add_instance, get_list, remove_instance},
-    ha_client::{hass_connect, hass_states, Haconn},
+    hass_client::{hass_connect, hass_states, Haconn},
 };
 use tauri::{CustomMenuItem, Manager, SystemTray, SystemTrayMenu};
 use tokio::sync::Mutex;
-use utils::config::{AppStore, Config};
 
 #[tokio::main]
 async fn main() {
@@ -29,7 +28,7 @@ async fn main() {
             let mut path = app.path_resolver().app_config_dir().unwrap();
             let _ = fs::create_dir(&path);
             path.push("config.yaml");
-            app.manage::<AppStore>(Mutex::new(Config::new(path)));
+            app.manage::<AppState>(Mutex::new(State::new(path)));
             Ok(())
         })
         .invoke_handler(tauri::generate_handler![

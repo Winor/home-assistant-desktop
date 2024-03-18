@@ -2,7 +2,6 @@ use std::{collections::BTreeMap, path::PathBuf};
 
 use serde::{Deserialize, Serialize};
 use tokio::fs;
-use tokio::sync::Mutex;
 
 use tauri::Url;
 use uuid::Uuid;
@@ -32,8 +31,6 @@ pub struct ServerParams {
     pub port: i32,
     pub token: String,
 }
-
-pub type AppStore = Mutex<Config>;
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub struct Config {

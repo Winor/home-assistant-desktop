@@ -3,12 +3,12 @@ use std::{borrow::BorrowMut, collections::BTreeMap};
 use tauri::State;
 use uuid::Uuid;
 
-use crate::utils::config::{AppStore, ServerParams};
+use crate::{app::state::AppState, utils::config::ServerParams};
 
 #[tauri::command]
-pub async fn add_instance(state: State<'_, AppStore>, server: ServerParams) -> Result<(), ()> {
-    let mut config = state.lock().await;
-    let config = config.borrow_mut();
+pub async fn add_instance(store: State<'_, AppState>, server: ServerParams) -> Result<(), ()> {
+    let mut state = store.lock().await;
+    let config = state.config.borrow_mut();
 
     config.add(server, None);
     config.write().await;
@@ -18,16 +18,18 @@ pub async fn add_instance(state: State<'_, AppStore>, server: ServerParams) -> R
 
 #[tauri::command]
 pub async fn get_list(
-    state: State<'_, AppStore>,
+    store: State<'_, AppState>,
 ) -> Result<BTreeMap<Uuid, std::string::String>, ()> {
-    let mut config = state.lock().await;
+    let mut state = store.lock().await;
+    let config = state.config.borrow_mut();
     config.read().await;
     Ok(config.list())
 }
 
 #[tauri::command]
-pub async fn remove_instance(state: State<'_, AppStore>, id: Uuid) -> Result<(), ()> {
-    let mut config = state.lock().await;
+pub async fn remove_instance(store: State<'_, AppState>, id: Uuid) -> Result<(), ()> {
+    let mut state = store.lock().await;
+    let config = state.config.borrow_mut();
 
     config.remove(id);
     config.write().await;
