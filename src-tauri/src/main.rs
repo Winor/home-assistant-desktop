@@ -1,12 +1,13 @@
 // Prevents additional console window on Windows in release, DO NOT REMOVE!!
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 // mod plugins;
-mod plugins;
+mod commands;
 mod utils;
+mod app;
 
 use std::fs;
-
-use plugins::{
+use app::action::open_settings;
+use commands::{
     config::{add_instance, get_list, remove_instance},
     ha_client::{hass_connect, hass_states, Haconn},
 };
@@ -41,15 +42,7 @@ async fn main() {
         .on_system_tray_event(|app, event| match event {
             tauri::SystemTrayEvent::MenuItemClick { id, .. } => match id.as_str() {
                 "settings" => {
-                    let _window = tauri::WindowBuilder::new(
-                        app,
-                        "settings",
-                        tauri::WindowUrl::App("index.html".into()),
-                    )
-                    .title("Home assistant desktop Settings")
-                    .center()
-                    .build()
-                    .unwrap();
+                    open_settings(app);
                 }
                 "exit" => {
                     app.exit(0);
