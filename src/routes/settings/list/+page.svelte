@@ -5,39 +5,27 @@
 <script lang="ts">
     import { MinusOutline, PlusOutline } from "flowbite-svelte-icons";
     import { ProgressBar } from "@skeletonlabs/skeleton";
-    import { list } from "../../store/server";
+    import { list } from "../../../store/server";
     import { get } from "svelte/store";
     import { goto } from "$app/navigation";
     import { invoke } from "@tauri-apps/api";
     import { listen } from "@tauri-apps/api/event";
     import { error } from "console";
     import { onMount } from "svelte";
+    import { appWindow } from '@tauri-apps/api/window';
+
+    let isLoading = false;
 
     onMount(async () => {
         await list.updateList();
     });
-
-    // list.updateList();
-
-    // function callback() : Promise<string> {
-    //     return new Promise(async (resolve) => {
-
-    //         const unlisten = await listen<string>("connection", (event) => {
-    //             unlisten();
-    //             resolve(event.payload);
-    //         });
-
-    //     });
-    // }
-
-    let isLoading = false;
 
     async function connect() {
         try {
             if (server) {
                 isLoading = true;
                 const cnt = await invoke("hass_connect", { serverId: server });
-                console.log(cnt)
+                appWindow.close()
             } else throw new Error("Server not selected");
         } catch (err) {
             isLoading = false;
