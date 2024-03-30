@@ -6,7 +6,7 @@ pub mod action {
             let _window = tauri::WindowBuilder::new(
                 app,
                 "settings",
-                tauri::WindowUrl::App("index.html".into()),
+                tauri::WindowUrl::App("settings".into()),
             )
             .title("Home assistant desktop Settings")
             .center()
@@ -20,7 +20,7 @@ pub mod action {
             let _window = tauri::WindowBuilder::new(
                 app,
                 "spotlight",
-                tauri::WindowUrl::App("spotlight.html".into()),
+                tauri::WindowUrl::App("spotlight".into()),
             )
             .title("Home assistant desktop Spotlight")
             .center()
