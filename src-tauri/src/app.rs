@@ -23,6 +23,8 @@ pub mod action {
                 tauri::WindowUrl::App("spotlight".into()),
             )
             .title("Home assistant desktop Spotlight")
+            .decorations(false)
+            .transparent(true)
             .center()
             .build()
             .unwrap();

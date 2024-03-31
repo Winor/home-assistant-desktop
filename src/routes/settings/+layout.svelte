@@ -1,7 +1,8 @@
 <script lang="ts">
-  import { AppShell, AppBar } from "@skeletonlabs/skeleton";
-  import "../app.pcss";
+  import { AppShell } from "@skeletonlabs/skeleton";
+  import "../../app.pcss";
 </script>
+
 
 <AppShell>
   <svelte:fragment slot="header">

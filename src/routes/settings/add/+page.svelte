@@ -1,8 +1,7 @@
 <script lang="ts">
-    import { list, Protocol, type ServerParams } from '../../../store/server';
+    import { Protocol, type ServerParams } from '../../../store/server';
     import {goto} from '$app/navigation';
     import { invoke } from '@tauri-apps/api';
-    import { error } from 'console';
 
     const server: ServerParams = {
         protocol: Protocol.https,

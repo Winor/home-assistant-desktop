@@ -6,7 +6,7 @@ mod utils;
 mod app;
 
 use std::fs;
-use app::{action::open_settings, state::{AppState, State}};
+use app::{action::{open_settings, open_spotlight}, state::{AppState, State}};
 use commands::{
     config::{add_instance, get_list, remove_instance},
     hass_client::{hass_connect, hass_states, Haconn},
@@ -22,6 +22,7 @@ async fn main() {
             SystemTray::new().with_menu(
                 SystemTrayMenu::new()
                     .add_item(CustomMenuItem::new("settings", "Settings"))
+                    .add_item(CustomMenuItem::new("spotlight", "Spotlight"))
                     .add_item(CustomMenuItem::new("exit", "Exit")),
             ),
         )
@@ -44,6 +45,9 @@ async fn main() {
             tauri::SystemTrayEvent::MenuItemClick { id, .. } => match id.as_str() {
                 "settings" => {
                     open_settings(app);
+                }
+                "spotlight" => {
+                    open_spotlight(app);
                 }
                 "exit" => {
                     app.exit(0);
