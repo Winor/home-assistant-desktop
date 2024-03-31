@@ -10,6 +10,7 @@ use app::{action::open_settings, state::{AppState, State}};
 use commands::{
     config::{add_instance, get_list, remove_instance},
     hass_client::{hass_connect, hass_states, Haconn},
+    state::get_status,
 };
 use tauri::{CustomMenuItem, Manager, SystemTray, SystemTrayMenu};
 use tokio::sync::Mutex;
@@ -36,6 +37,7 @@ async fn main() {
             hass_states,
             add_instance,
             get_list,
+            get_status,
             remove_instance
         ])
         .on_system_tray_event(|app, event| match event {

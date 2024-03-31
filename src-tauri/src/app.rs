@@ -32,12 +32,14 @@ pub mod action {
 
 pub mod state {
     use std::path::PathBuf;
+    use serde::{Deserialize, Serialize};
     use tokio::sync::Mutex;
     use uuid::Uuid;
     use crate::utils::config::Config;
 
     pub type AppState = Mutex<State>;
 
+#[derive(Debug, PartialEq, Serialize, Deserialize, Clone)]
     pub enum Status {
         Connected(Uuid),
         Disconnected,
